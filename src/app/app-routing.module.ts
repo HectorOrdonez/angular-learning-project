@@ -5,13 +5,16 @@ import {RecipesComponent} from "./recipes/recipes.component";
 import {RecipeDetailComponent} from "./recipes/recipe-detail/recipe-detail.component";
 import {RecipesUnselectedComponent} from "./recipes/recipes.unselected.component";
 import {RecipeResolver} from "./recipe-resolver.service";
+import {RecipeEditComponent} from "./recipes/recipe-edit/recipe-edit.component";
 
 const appRoutes: Routes = [
-  {path: '', redirectTo: '/recipes/unselected', pathMatch: 'full'},
+  {path: '', redirectTo: '/recipes', pathMatch: 'full'},
   {
     path: 'recipes', component: RecipesComponent, children: [
       {path: '', component: RecipesUnselectedComponent},
-      {path: ':id', component: RecipeDetailComponent, resolve: {recipe: RecipeResolver}}
+      {path: 'new', component: RecipeEditComponent},
+      {path: ':id', component: RecipeDetailComponent, resolve: {recipe: RecipeResolver}},
+      {path: ':id/edit', component: RecipeEditComponent},
     ]
   },
   {path: 'shopping-list', component: ShoppingListComponent}
