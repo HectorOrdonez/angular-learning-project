@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Data} from "@angular/router";
 
 @Component({
   selector: 'app-recipe-edit',
@@ -6,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./recipe-edit.component.css']
 })
 export class RecipeEditComponent implements OnInit {
+  private editMode: 'new'|'edit' = 'new'
 
-  constructor() { }
+  constructor(private activatedRoute: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe((data: Data) => {
+      if (data['recipe'] !== undefined)
+      {
+        this.editMode = 'edit'
+      }
+    })
   }
 
 }
