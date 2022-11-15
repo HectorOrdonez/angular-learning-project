@@ -1,0 +1,29 @@
+<h1>Exercise specs</h1>
+<ul>
+  <li>(N) Pile of nuts in kilograms</li>
+  <li>(D) kilometers between pile and town</li>
+  <li>(C) is the maximum amount of nuts that can be transported at once</li>
+  <li>(F) is the amount of kg of nuts lost per kilometer</li>
+</ul>
+<h3>We are looking for (X): maximum amount of nuts that can be transported</h3>
+
+
+<p>
+  <label class="label-info" for="nut_amount">(N)ut amount</label>
+  <input type="text" id="nut_amount" [(ngModel)]="nutAmount">
+</p>
+<p><label class="label-info" for="distance">(D)istance between pile and town</label>
+  <input type="text" id="distance" [(ngModel)]="distance">
+</p>
+<p>
+  <label class="label-info" for="carry_amount">(D)arry amount</label>
+  <input type="text" id="carry_amount" [(ngModel)]="carryAmount">
+</p>
+<p>
+  <label class="label-info" for="fuel_consumption">(F)uel consumption</label>
+  <input type="text" id="fuel_consumption" [(ngModel)]="fuel_consumption">
+</p>
+
+<p>What is X?</p>
+<button (click)="onCalculate()">Calculate</button>
+<div id="result">X is bla</div>

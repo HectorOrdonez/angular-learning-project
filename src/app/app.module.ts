@@ -2,7 +2,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 
-
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './header/header.component';
 import {RecipesComponent} from './recipes/recipes.component';
@@ -17,7 +16,8 @@ import {AppRoutingModule} from "./app-routing.module";
 import {RecipeService} from "./recipes/recipe.service";
 import {RecipesUnselectedComponent} from "./recipes/recipes.unselected.component";
 import {RecipeResolver} from "./recipe-resolver.service";
-import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
+import {RecipeEditComponent} from './recipes/recipe-edit/recipe-edit.component';
+import {ExerciseComponent} from './exercise/exercise.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +31,8 @@ import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component
     ShoppingListComponent,
     ShoppingEditComponent,
     DropdownDirective,
-    RecipeEditComponent
+    RecipeEditComponent,
+    ExerciseComponent
   ],
   imports: [
     BrowserModule,
