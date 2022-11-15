@@ -21,9 +21,9 @@
 </p>
 <p>
   <label class="label-info" for="fuel_consumption">(F)uel consumption</label>
-  <input type="text" id="fuel_consumption" [(ngModel)]="fuel_consumption">
+  <input type="text" id="fuel_consumption" [(ngModel)]="fuelConsumption">
 </p>
 
 <p>What is X?</p>
 <button (click)="onCalculate()">Calculate</button>
-<div id="result">X is bla</div>
+<div id="result">{{ totalTransported }}</div>
