@@ -14,22 +14,27 @@ export class ShoppingListService {
     return this.ingredients.slice();
   }
 
-  addIngredient(ingredient: Ingredient) {
+  create(ingredient: Ingredient) {
     this.ingredients.push(ingredient);
     this.ingredientsChanged.next(this.ingredients.slice());
   }
 
-  updateIngredient(index: number, newIngredient: Ingredient) {
+  update(index: number, newIngredient: Ingredient) {
     this.ingredients[index] = newIngredient
     this.ingredientsChanged.next(this.ingredients.slice())
   }
 
-  addIngredients(ingredients: Ingredient[]) {
+  createMany(ingredients: Ingredient[]) {
     this.ingredients.push(...ingredients);
     this.ingredientsChanged.next(this.ingredients.slice());
   }
 
   getIngredient(index: number) {
     return this.ingredients[index]
+  }
+
+  delete(editedItemIndex: number) {
+    this.ingredients.splice(editedItemIndex, 1)
+    this.ingredientsChanged.next(this.ingredients.slice())
   }
 }
