@@ -12,9 +12,9 @@ import {Subscription} from "rxjs";
 })
 export class ShoppingEditComponent implements OnInit, OnDestroy {
   @ViewChild('itemForm') itemForm: NgForm
-  private startedEditingSubscription: Subscription
   editMode = false
   editedItemIndex: number
+  private startedEditingSubscription: Subscription
 
   constructor(private slService: ShoppingListService) {
   }
@@ -36,11 +36,16 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     this.startedEditingSubscription.unsubscribe()
   }
 
-  onAddItem(form: NgForm) {
+  onFormSubmit(form: NgForm) {
     const ingName = form.value.name
     const ingAmount = form.value.amount
-    const newIngredient = new Ingredient(ingName, ingAmount);
-    this.slService.addIngredient(newIngredient);
+    const ingredient = new Ingredient(ingName, ingAmount);
+
+    if (this.editMode) {
+      this.slService.updateIngredient(this.editedItemIndex, ingredient);
+    } else {
+      this.slService.addIngredient(ingredient);
+    }
   }
 
 }

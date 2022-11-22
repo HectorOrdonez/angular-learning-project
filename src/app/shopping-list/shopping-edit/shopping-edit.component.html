@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xs-12">
-    <form (ngSubmit)="onAddItem(itemForm)" #itemForm="ngForm">
+    <form (ngSubmit)="onFormSubmit(itemForm)" #itemForm="ngForm">
       <div class="row">
         <div class="col-sm-5 form-group">
           <label for="name">Name</label>
@@ -33,7 +33,9 @@
           <div class="alert alert-warning" *ngIf="itemForm.invalid && itemForm.touched">
             Please correct the input values
           </div>
-          <button class="btn btn-success" type="submit" [disabled]="itemForm.invalid">Add</button>
+          <button class="btn btn-success" type="submit" [disabled]="itemForm.invalid">
+            {{ this.editMode ? 'Edit': 'Add'}}
+          </button>
           <button class="btn btn-danger" type="button">Delete</button>
           <button class="btn btn-primary" type="button">Clear</button>
         </div>
