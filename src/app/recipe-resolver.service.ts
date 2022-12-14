@@ -10,11 +10,7 @@ export class RecipeResolver implements Resolve<Recipe> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Recipe> | Promise<Recipe> | Recipe {
-    console.log('resolving recipe Id: ' + route.params['id'])
-    const recipe = this.recipesService.getById(route.params['id']);
-
-    console.log(recipe)
-    return recipe
+    return this.recipesService.getById(route.params['id']);
   }
 
 }

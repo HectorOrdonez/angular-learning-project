@@ -13,6 +13,7 @@ export class RecipeEditComponent implements OnInit {
   recipeForm: FormGroup
   private editMode: boolean = false
   private editingRecipe: Recipe
+  private id: number
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -31,6 +32,7 @@ export class RecipeEditComponent implements OnInit {
       if (data['recipe'] !== undefined) {
         this.editMode = true
         this.editingRecipe = data.recipe
+        this.id = this.activatedRoute.params['id']
       }
       this.initForm()
     })
@@ -47,14 +49,14 @@ export class RecipeEditComponent implements OnInit {
   }
 
   onSubmit() {
-    // const recipe = new Recipe(this.editingRecipe.id,
+    // const recipe = new Recipe(this.id,
     //   this.recipeForm.value['name'],
     //   this.recipeForm.value['description'],
     //   this.recipeForm.value['imagePath'],
     //   this.recipeForm.value['ingredients'],
     // )
     if (this.editMode) {
-      this.recipeService.update(this.editingRecipe.id, this.recipeForm.value)
+      this.recipeService.update(this.id, this.recipeForm.value)
     } else {
       this.recipeService.add(this.recipeForm.value)
     }
@@ -102,5 +104,9 @@ export class RecipeEditComponent implements OnInit {
 
   private backToList(): void {
     this.router.navigate(['../'], {relativeTo: this.activatedRoute})
+  }
+
+  onDeleteIngredient(ingredientId: number) {
+    (<FormArray>this.recipeForm.get('ingredients')).removeAt(ingredientId)
   }
 }
