@@ -42,6 +42,14 @@ export class RecipeEditComponent implements OnInit {
     }))
   }
 
+  onSubmit() {
+    if (this.editMode) {
+      this.submitEditRecipe()
+    } else {
+      this.submitNewRecipe()
+    }
+  }
+
   private initForm() {
     let recipeName = ''
     let recipeImagePath = ''
@@ -74,5 +82,26 @@ export class RecipeEditComponent implements OnInit {
       'description': new FormControl(recipeDescription),
       'ingredients': recipeIngredients,
     })
+  }
+
+  private submitEditRecipe() {
+    const recipe = new Recipe(this.editingRecipe.id,
+      this.recipeForm.value['name'],
+      this.recipeForm.value['description'],
+      this.recipeForm.value['imagePath'],
+      this.recipeForm.value['ingredients'],
+    )
+
+    this.recipeService.update(recipe)
+  }
+
+  private submitNewRecipe() {
+    const recipe = new Recipe(null,
+      this.recipeForm.value['name'],
+      this.recipeForm.value['description'],
+      this.recipeForm.value['imagePath'],
+      this.recipeForm.value['ingredients'],
+    )
+      this.recipeService.add(recipe)
   }
 }

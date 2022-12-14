@@ -27,7 +27,7 @@ export class RecipeService {
       ])
   ];
 
-   constructor(private slService: ShoppingListService) {
+  constructor(private slService: ShoppingListService) {
   }
 
   getRecipes() {
@@ -44,5 +44,13 @@ export class RecipeService {
    */
   getById(id: number) {
     return this.recipes[id - 1]
+  }
+
+  add(newRecipe: Recipe): void {
+    console.log('Adding new recipe')
+  }
+
+  update(recipe: Recipe): void {
+    console.log('updating recipe with index:' + recipe.id)
   }
 }
