@@ -2,8 +2,12 @@
   <div class="col">
     <form [formGroup]="recipeForm">
       <div class="row">
-        <div class="col">
-          <button type="submit" class="btn btn-success">Save</button>
+        <div class="col-xs-12">
+          <button
+            type="submit"
+            class="btn btn-success"
+            [disabled]="recipeForm.invalid"
+          >Save</button>
           <button type="button" class="btn btn-danger">Cancel</button>
         </div>
       </div>
