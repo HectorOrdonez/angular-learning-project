@@ -11,7 +11,7 @@ export class RecipeService {
 
   private recipes: Recipe[] = [
     new Recipe(
-      'Tasty Schnitzel',
+      '1 Tasty Schnitzel',
       'A super-tasty Schnitzel - just awesome!',
       'https://upload.wikimedia.org/wikipedia/commons/7/72/Schnitzel.JPG',
       [
@@ -19,13 +19,13 @@ export class RecipeService {
         new Ingredient('French Fries', 20)
       ]),
     new Recipe(
-      'Big Fat Burger',
+      '2 Big Fat Burger',
       'What else you need to say?',
       'https://upload.wikimedia.org/wikipedia/commons/b/be/Burger_King_Angus_Bacon_%26_Cheese_Steak_Burger.jpg',
       [
         new Ingredient('Buns', 2),
         new Ingredient('Meat', 1)
-      ])
+      ]),
   ];
 
   constructor(private slService: ShoppingListService) {
@@ -40,7 +40,10 @@ export class RecipeService {
   }
 
   getById(id: number) {
-    return this.recipes[id]
+    let recipe = this.recipes[id]
+    recipe.setId(id)
+
+    return recipe
   }
 
   add(newRecipe: Recipe): void {
@@ -49,11 +52,14 @@ export class RecipeService {
   }
 
   update(index: number, recipe: Recipe): void {
+    console.log('Updating recipe with index: ' + index)
+    console.log(recipe)
     this.recipes[index] = recipe
     this.recipesChanged.next(this.recipes.slice())
   }
 
   delete(index: number): void {
+    console.log('deleting index: ' + index)
     this.recipes.splice(index, 1)
     this.recipesChanged.next(this.recipes.slice())
   }

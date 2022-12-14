@@ -11,8 +11,7 @@ import {Recipe} from "../recipe.model";
 })
 export class RecipeEditComponent implements OnInit {
   recipeForm: FormGroup
-  private editMode: boolean = false
-  private editingRecipe: Recipe
+  private editingRecipe: Recipe | null
   private id: number
 
   constructor(
@@ -29,11 +28,7 @@ export class RecipeEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe((data: Data) => {
-      if (data['recipe'] !== undefined) {
-        this.editMode = true
-        this.editingRecipe = data.recipe
-        this.id = this.activatedRoute.params['id']
-      }
+      this.editingRecipe = data.recipe ? data.recipe : null
       this.initForm()
     })
   }
@@ -49,16 +44,17 @@ export class RecipeEditComponent implements OnInit {
   }
 
   onSubmit() {
-    // const recipe = new Recipe(this.id,
-    //   this.recipeForm.value['name'],
-    //   this.recipeForm.value['description'],
-    //   this.recipeForm.value['imagePath'],
-    //   this.recipeForm.value['ingredients'],
-    // )
-    if (this.editMode) {
-      this.recipeService.update(this.id, this.recipeForm.value)
+    const recipe = new Recipe(
+      this.recipeForm.value['name'],
+      this.recipeForm.value['description'],
+      this.recipeForm.value['imagePath'],
+      this.recipeForm.value['ingredients'],
+    )
+
+    if (this.editingRecipe) {
+      this.recipeService.update(this.editingRecipe.id, recipe)
     } else {
-      this.recipeService.add(this.recipeForm.value)
+      this.recipeService.add(recipe)
     }
 
     this.backToList()
@@ -74,7 +70,8 @@ export class RecipeEditComponent implements OnInit {
     let recipeDescription = ''
     let recipeIngredients = new FormArray([])
 
-    if (this.editMode) {
+    if (this.editingRecipe) {
+      console.log('We are editing recipe: ' + this.editingRecipe.id)
       recipeName = this.editingRecipe.name
       recipeImagePath = this.editingRecipe.imagePath
       recipeDescription = this.editingRecipe.description
