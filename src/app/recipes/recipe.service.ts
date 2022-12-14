@@ -3,9 +3,12 @@ import {Injectable} from '@angular/core';
 import {Recipe} from './recipe.model';
 import {Ingredient} from '../shared/ingredient.model';
 import {ShoppingListService} from '../shopping-list/shopping-list.service';
+import {Subject} from "rxjs";
 
 @Injectable()
 export class RecipeService {
+  recipesChanged = new Subject<Recipe[]>()
+
   private recipes: Recipe[] = [
     new Recipe(
       1,
@@ -28,6 +31,7 @@ export class RecipeService {
   ];
 
   constructor(private slService: ShoppingListService) {
+    console.log('Recipe Service constructor called')
   }
 
   getRecipes() {
@@ -43,14 +47,21 @@ export class RecipeService {
    * @param id number
    */
   getById(id: number) {
+    console.log('Getting by Id: ' + id)
+    console.log(this.recipes)
+
     return this.recipes[id - 1]
   }
 
   add(newRecipe: Recipe): void {
-    console.log('Adding new recipe')
+    console.log('Adding recipe')
+    newRecipe.id = this.recipes.length + 1
+    this.recipes.push(newRecipe)
+    this.recipesChanged.next(this.recipes.slice())
   }
 
   update(recipe: Recipe): void {
-    console.log('updating recipe with index:' + recipe.id)
+    this.recipes[recipe.id - 1] = recipe
+    this.recipesChanged.next(this.recipes.slice())
   }
 }
