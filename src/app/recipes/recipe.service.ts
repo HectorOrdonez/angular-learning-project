@@ -31,7 +31,6 @@ export class RecipeService {
   ];
 
   constructor(private slService: ShoppingListService) {
-    console.log('Recipe Service constructor called')
   }
 
   getRecipes() {
@@ -42,26 +41,22 @@ export class RecipeService {
     this.slService.createMany(ingredients);
   }
 
-  /**
-   * Note: The internal recipe array is 0-indexed
-   * @param id number
-   */
   getById(id: number) {
-    console.log('Getting by Id: ' + id)
-    console.log(this.recipes)
-
-    return this.recipes[id - 1]
+    return this.recipes[id]
   }
 
   add(newRecipe: Recipe): void {
-    console.log('Adding recipe')
-    newRecipe.id = this.recipes.length + 1
     this.recipes.push(newRecipe)
     this.recipesChanged.next(this.recipes.slice())
   }
 
-  update(recipe: Recipe): void {
-    this.recipes[recipe.id - 1] = recipe
+  update(index: number, recipe: Recipe): void {
+    this.recipes[index] = recipe
+    this.recipesChanged.next(this.recipes.slice())
+  }
+
+  delete(index: number): void {
+    this.recipes.splice(index, 1)
     this.recipesChanged.next(this.recipes.slice())
   }
 }

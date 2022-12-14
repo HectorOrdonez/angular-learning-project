@@ -17,8 +17,6 @@ export class RecipeDetailComponent implements OnInit {
   ngOnInit() {
     this.activedRoute.data.subscribe((data: Data) => {
       this.recipe = data['recipe']
-      console.log('initialising recipe detail')
-      console.log(this.recipe)
     })
   }
 
@@ -28,5 +26,9 @@ export class RecipeDetailComponent implements OnInit {
 
   onEditRecipe() {
     this.router.navigate(['edit'], {relativeTo: this.activedRoute})
+  }
+
+  onDeleteRecipe() {
+    this.recipeService.delete(this.recipe.id)
   }
 }

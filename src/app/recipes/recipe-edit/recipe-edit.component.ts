@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Data} from "@angular/router";
+import {ActivatedRoute, Data, Router} from "@angular/router";
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {RecipeService} from "../recipe.service";
 import {Recipe} from "../recipe.model";
@@ -14,7 +14,11 @@ export class RecipeEditComponent implements OnInit {
   private editMode: boolean = false
   private editingRecipe: Recipe
 
-  constructor(private activatedRoute: ActivatedRoute, private recipeService: RecipeService) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private recipeService: RecipeService,
+    private router: Router,
+  ) {
 
   }
 
@@ -43,11 +47,23 @@ export class RecipeEditComponent implements OnInit {
   }
 
   onSubmit() {
+    // const recipe = new Recipe(this.editingRecipe.id,
+    //   this.recipeForm.value['name'],
+    //   this.recipeForm.value['description'],
+    //   this.recipeForm.value['imagePath'],
+    //   this.recipeForm.value['ingredients'],
+    // )
     if (this.editMode) {
-      this.submitEditRecipe()
+      this.recipeService.update(this.editingRecipe.id, this.recipeForm.value)
     } else {
-      this.submitNewRecipe()
+      this.recipeService.add(this.recipeForm.value)
     }
+
+    this.backToList()
+  }
+
+  onCancel() {
+    this.backToList()
   }
 
   private initForm() {
@@ -84,24 +100,7 @@ export class RecipeEditComponent implements OnInit {
     })
   }
 
-  private submitEditRecipe() {
-    const recipe = new Recipe(this.editingRecipe.id,
-      this.recipeForm.value['name'],
-      this.recipeForm.value['description'],
-      this.recipeForm.value['imagePath'],
-      this.recipeForm.value['ingredients'],
-    )
-
-    this.recipeService.update(recipe)
-  }
-
-  private submitNewRecipe() {
-    const recipe = new Recipe(null,
-      this.recipeForm.value['name'],
-      this.recipeForm.value['description'],
-      this.recipeForm.value['imagePath'],
-      this.recipeForm.value['ingredients'],
-    )
-      this.recipeService.add(recipe)
+  private backToList(): void {
+    this.router.navigate(['../'], {relativeTo: this.activatedRoute})
   }
 }
