@@ -31,6 +31,14 @@ export class RecipeService {
   constructor(private slService: ShoppingListService) {
   }
 
+  setRecipes(recipes: Recipe[]) {
+    console.log('Setting recipes to:')
+    console.log(recipes)
+
+    this.recipes = recipes
+    this.recipesChanged.next(this.recipes.slice())
+  }
+
   getRecipes() {
     return this.recipes.slice();
   }
@@ -40,10 +48,7 @@ export class RecipeService {
   }
 
   getById(id: number) {
-    let recipe = this.recipes[id]
-    recipe.setId(id)
-
-    return recipe
+    return this.recipes[id]
   }
 
   add(newRecipe: Recipe): void {
