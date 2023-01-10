@@ -18,6 +18,7 @@ import {RecipesUnselectedComponent} from "./recipes/recipes.unselected.component
 import {RecipeResolver} from "./recipe-resolver.service";
 import {RecipeEditComponent} from './recipes/recipe-edit/recipe-edit.component';
 import {ExerciseComponent} from './exercise/exercise.component';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import {ExerciseComponent} from './exercise/exercise.component';
         FormsModule,
         AppRoutingModule,
         ReactiveFormsModule,
+        HttpClientModule,
     ],
   providers: [ShoppingListService, RecipeService, RecipeResolver],
   bootstrap: [AppComponent]
