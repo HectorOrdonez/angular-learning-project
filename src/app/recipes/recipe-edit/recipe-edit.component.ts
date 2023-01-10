@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Data, Router} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {RecipeService} from "../recipe.service";
 import {Recipe} from "../recipe.model";
@@ -11,8 +11,8 @@ import {Recipe} from "../recipe.model";
 })
 export class RecipeEditComponent implements OnInit {
   recipeForm: FormGroup
-  private editingRecipe: Recipe | null
-  private id: number
+  id: number;
+  editMode = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -27,8 +27,10 @@ export class RecipeEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe((data: Data) => {
-      this.editingRecipe = data.recipe ? data.recipe : null
+    this.activatedRoute.params.subscribe((params: Params) => {
+      this.id = +params['id']
+      this.editMode = params['id'] != null
+
       this.initForm()
     })
   }
@@ -44,17 +46,17 @@ export class RecipeEditComponent implements OnInit {
   }
 
   onSubmit() {
-    const recipe = new Recipe(
-      this.recipeForm.value['name'],
-      this.recipeForm.value['description'],
-      this.recipeForm.value['imagePath'],
-      this.recipeForm.value['ingredients'],
-    )
+    // const recipe = new Recipe(
+    //   this.recipeForm.value['name'],
+    //   this.recipeForm.value['description'],
+    //   this.recipeForm.value['imagePath'],
+    //   this.recipeForm.value['ingredients'],
+    // )
 
-    if (this.editingRecipe) {
-      this.recipeService.update(this.editingRecipe.id, recipe)
+    if (this.editMode) {
+      this.recipeService.update(this.id, this.recipeForm.value)
     } else {
-      this.recipeService.add(recipe)
+      this.recipeService.add(this.recipeForm.value)
     }
 
     this.backToList()
@@ -70,14 +72,14 @@ export class RecipeEditComponent implements OnInit {
     let recipeDescription = ''
     let recipeIngredients = new FormArray([])
 
-    if (this.editingRecipe) {
-      console.log('We are editing recipe: ' + this.editingRecipe.id)
-      recipeName = this.editingRecipe.name
-      recipeImagePath = this.editingRecipe.imagePath
-      recipeDescription = this.editingRecipe.description
-
-      if (this.editingRecipe.ingredients) {
-        for (let ingredient of this.editingRecipe.ingredients) {
+    if (this.editMode) {
+      const recipe = this.recipeService.getById(this.id)
+      console.log('We are editing recipe: ' + this.id)
+      recipeName = recipe.name
+      recipeImagePath = recipe.imagePath
+      recipeDescription = recipe.description
+      if (recipe['ingredients']) {
+        for (let ingredient of recipe.ingredients) {
           recipeIngredients.push(
             new FormGroup({
               'name': new FormControl(ingredient.name),

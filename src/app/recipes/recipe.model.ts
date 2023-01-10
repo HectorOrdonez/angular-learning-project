@@ -1,7 +1,6 @@
 import { Ingredient } from '../shared/ingredient.model';
 
 export class Recipe {
-  public id: number
   public name: string;
   public description: string;
   public imagePath: string;
@@ -12,9 +11,5 @@ export class Recipe {
     this.description = desc;
     this.imagePath = imagePath;
     this.ingredients = ingredients;
-  }
-
-  setId(id: number) {
-    this.id = id
   }
 }
