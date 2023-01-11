@@ -54,14 +54,11 @@ export class RecipeService {
   }
 
   update(index: number, recipe: Recipe): void {
-    console.log('Updating recipe with index: ' + index)
-    console.log(recipe)
     this.recipes[index] = recipe
     this.recipesChanged.next(this.recipes.slice())
   }
 
   delete(index: number): void {
-    console.log('deleting index: ' + index)
     this.recipes.splice(index, 1)
     this.recipesChanged.next(this.recipes.slice())
   }

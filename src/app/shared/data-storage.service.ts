@@ -11,19 +11,14 @@ export class DataStorageService {
 
   storeRecipes() {
     const recipes = this.recipeService.getRecipes()
-    console.log('DataStorageService is storing these recipes:')
-    console.log(recipes)
 
     // Firebase allows put requests to replace previous data with current request
     this.client.put('https://ng-course-recipe-book-34272-default-rtdb.europe-west1.firebasedatabase.app/recipes.json', recipes)
       .subscribe(response => {
-        console.log('Received response from Firebase:')
-        console.log(response)
       })
   }
 
   fetchRecipes() {
-    console.log('DataStorageService is fetching recipes.')
 
     return this.client.get<Recipe[]>('https://ng-course-recipe-book-34272-default-rtdb.europe-west1.firebasedatabase.app/recipes.json')
       .pipe(
