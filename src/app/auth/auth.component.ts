@@ -8,6 +8,7 @@ import {AuthService} from "./auth.service";
 })
 export class AuthComponent {
   loginMode = true
+  loading: boolean = false;
 
   constructor(private authService: AuthService) {
   }
@@ -25,22 +26,30 @@ export class AuthComponent {
   }
 
   private login(authForm: NgForm) {
+    this.loading = true
+
     this.authService.login(authForm.value.email, authForm.value.password).subscribe(response => {
       console.log('Got a response from logging in:')
       console.log(response)
+      this.loading = false
     }, error => {
       console.log('Got an error from logging in:')
       console.log(error)
+      this.loading = false
     })
   }
 
   private register(authForm: NgForm) {
+    this.loading = true
+
     this.authService.register(authForm.value.email, authForm.value.password).subscribe(response => {
       console.log('Got a response from registering:')
       console.log(response)
+      this.loading = false
     }, error => {
       console.log('Got an error from registering:')
       console.log(error)
+      this.loading = false
     })
   }
 }

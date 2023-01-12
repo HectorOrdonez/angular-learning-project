@@ -18,6 +18,7 @@ import {RecipesUnselectedComponent} from "./recipes/recipes.unselected.component
 import {RecipeEditComponent} from './recipes/recipe-edit/recipe-edit.component';
 import {HttpClientModule} from "@angular/common/http";
 import {AuthComponent} from "./auth/auth.component";
+import {LoadingSpinnerComponent} from "./shared/loading-spinner/loading-spinner.component";
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {AuthComponent} from "./auth/auth.component";
     AuthComponent,
     DropdownDirective,
     HeaderComponent,
+    LoadingSpinnerComponent,
     RecipeDetailComponent,
     RecipeItemComponent,
     RecipeListComponent,
