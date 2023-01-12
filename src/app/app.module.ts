@@ -15,37 +15,35 @@ import {ShoppingListService} from './shopping-list/shopping-list.service';
 import {AppRoutingModule} from "./app-routing.module";
 import {RecipeService} from "./recipes/recipe.service";
 import {RecipesUnselectedComponent} from "./recipes/recipes.unselected.component";
-// import {RecipeResolver} from "./recipe-resolver.service";
 import {RecipeEditComponent} from './recipes/recipe-edit/recipe-edit.component';
-import {ExerciseComponent} from './exercise/exercise.component';
 import {HttpClientModule} from "@angular/common/http";
+import {AuthComponent} from "./auth/auth.component";
 
 @NgModule({
   declarations: [
     AppComponent,
+    AuthComponent,
+    DropdownDirective,
     HeaderComponent,
-    RecipesComponent,
-    RecipesUnselectedComponent,
-    RecipeListComponent,
     RecipeDetailComponent,
     RecipeItemComponent,
-    ShoppingListComponent,
-    ShoppingEditComponent,
-    DropdownDirective,
+    RecipeListComponent,
+    RecipesComponent,
+    RecipesUnselectedComponent,
     RecipeEditComponent,
-    ExerciseComponent
+    ShoppingEditComponent,
+    ShoppingListComponent,
   ],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-    ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+  ],
   providers: [
     ShoppingListService,
     RecipeService,
-    // RecipeResolver,
   ],
   bootstrap: [AppComponent]
 })
