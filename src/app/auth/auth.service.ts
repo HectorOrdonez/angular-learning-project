@@ -12,6 +12,7 @@ export class AuthService {
   readonly KEY = 'AIzaSyCWtZnwnKypFOc8geLHSk9vRhlXq0FBNuA'
   readonly REGISTER_ENDPOINT = `${this.AUTH_ROOT}:signUp?key=${this.KEY}`
   readonly LOGIN_ENDPOINT = `${this.AUTH_ROOT}:signInWithPassword?key=${this.KEY}`
+  readonly USER_DATA_KEY = 'user_data';
 
   user = new BehaviorSubject<User>(null)
 
@@ -26,9 +27,7 @@ export class AuthService {
       returnSecureToken: true
     }).pipe(
       catchError(this.handleError),
-      tap(response => {
-        this.user.next(new User(response.localId, response.email, response.idToken, +response.expiresIn))
-      })
+      tap(this.handleSuccess.bind(this))
     )
   }
 
@@ -39,10 +38,13 @@ export class AuthService {
       returnSecureToken: true
     }).pipe(
       catchError(this.handleError),
-      tap(response => {
-        this.user.next(new User(response.localId, response.email, response.idToken, +response.expiresIn))
-      })
+      tap(this.handleSuccess.bind(this))
     )
+  }
+
+  logout() {
+    this.user.next(null)
+    this.router.navigate(['/auth'])
   }
 
   private handleError(errorResponse: HttpErrorResponse) {
@@ -66,8 +68,27 @@ export class AuthService {
     return throwError(errorMessage)
   }
 
-  logout() {
-    this.user.next(null)
-    this.router.navigate(['/auth'])
+  private handleSuccess(response) {
+    const user = new User(response.localId, response.email, response.idToken, +response.expiresIn)
+    this.user.next(user)
+    localStorage.setItem(this.USER_DATA_KEY, JSON.stringify(user))
+  }
+
+  autoLogin() {
+    const userData = JSON.parse(localStorage.getItem(this.USER_DATA_KEY))
+
+    if(!userData)
+    {
+      return
+    }
+
+    const loadedUser = new User(userData.id, userData.email, userData._token, userData.expiredIn)
+
+    if(!loadedUser.token) {
+      return
+    }
+
+      console.log('valid token, loading')
+      this.user.next(loadedUser)
   }
 }
