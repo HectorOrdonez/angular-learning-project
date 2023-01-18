@@ -15,6 +15,7 @@ export class AuthService {
   readonly USER_DATA_KEY = 'user_data';
 
   user = new BehaviorSubject<User>(null)
+  private expirationTimer = null
 
   constructor(private httpClient: HttpClient, private router: Router) {
   }
@@ -45,6 +46,7 @@ export class AuthService {
   logout() {
     this.user.next(null)
     this.router.navigate(['/auth'])
+    localStorage.removeItem(this.USER_DATA_KEY)
   }
 
   private handleError(errorResponse: HttpErrorResponse) {
@@ -69,26 +71,40 @@ export class AuthService {
   }
 
   private handleSuccess(response) {
-    const user = new User(response.localId, response.email, response.idToken, +response.expiresIn)
+    const expiresInMilliseconds = +response.expiresIn * 1000
+    const now = new Date()
+    const expirationDate = new Date(now.getTime() + expiresInMilliseconds)
+    const user = new User(response.localId, response.email, response.idToken, expirationDate)
+
     this.user.next(user)
     localStorage.setItem(this.USER_DATA_KEY, JSON.stringify(user))
+    this.autoLogout(expiresInMilliseconds)
   }
 
   autoLogin() {
     const userData = JSON.parse(localStorage.getItem(this.USER_DATA_KEY))
 
-    if(!userData)
-    {
+    if (!userData) {
       return
     }
 
-    const loadedUser = new User(userData.id, userData.email, userData._token, userData.expiredIn)
+    const loadedUser = new User(userData.id, userData.email, userData._token, userData.expirationDate)
 
-    if(!loadedUser.token) {
+    if (!loadedUser.token) {
       return
     }
 
-      console.log('valid token, loading')
-      this.user.next(loadedUser)
+    const expiresIn = new Date(userData.expirationDate).getTime() - new Date().getTime()
+
+    this.user.next(loadedUser)
+    this.autoLogout(expiresIn)
+  }
+
+  autoLogout(expireInMilliseconds: number) {
+    this.expirationTimer = setTimeout(() => {
+      this.logout()
+      clearTimeout(this.expirationTimer)
+      this.expirationTimer = null
+    }, expireInMilliseconds)
   }
 }
