@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, throwError} from "rxjs";
 import {AuthResponseData} from "./auth-response.data";
+import {catchError} from "rxjs/operators";
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
@@ -14,22 +15,59 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<AuthResponseData> {
-    console.log(`Attempting to login with ${email} and ${password}`)
 
     return this.httpClient.post<AuthResponseData>(this.LOGIN_ENDPOINT, {
       email: email,
       password: password,
       returnSecureToken: true
     })
+      .pipe(
+        catchError(errorResponse => {
+          let errorMessage = 'Something terrible happened!'
+
+          if(!errorResponse.error || !errorResponse.error.error)
+          {
+            return throwError(errorMessage)
+          }
+
+          switch(errorResponse.error.error.message)
+          {
+            case 'EMAIL_NOT_FOUND':
+            case 'INVALID_PASSWORD':
+              errorMessage = 'Your credentials are not correct. Verify email and password'
+              break
+          }
+
+          return throwError(errorMessage)
+        })
+      )
   }
 
   register(email: string, password: string): Observable<AuthResponseData> {
-    console.log(`Attempting to register with ${email} and ${password}`)
 
     return this.httpClient.post<AuthResponseData>(this.REGISTER_ENDPOINT, {
       email: email,
       password: password,
       returnSecureToken: true
     })
+      .pipe(
+        catchError(errorResponse => {
+          let errorMessage = 'Something terrible happened!'
+
+          if(!errorResponse.error || !errorResponse.error.error)
+          {
+            return throwError(errorMessage)
+          }
+
+          switch(errorResponse.error.error.message)
+          {
+            case 'EMAIL_EXISTS':
+              errorMessage = 'Email already in use'
+              break
+          }
+
+          return throwError(errorMessage)
+        })
+      )
   }
 }

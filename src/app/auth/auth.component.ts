@@ -30,13 +30,9 @@ export class AuthComponent {
     this.loading = true
 
     this.authService.login(authForm.value.email, authForm.value.password).subscribe(response => {
-      console.log('Got a response from logging in:')
-      console.log(response)
       this.loading = false
-    }, error => {
-      console.log('Got an error from logging in:')
-      console.log(error)
-      this.error = 'An error occurred'
+    }, errorResponse => {
+      this.error = errorResponse
       this.loading = false
     })
   }
@@ -45,13 +41,9 @@ export class AuthComponent {
     this.loading = true
 
     this.authService.register(authForm.value.email, authForm.value.password).subscribe(response => {
-      console.log('Got a response from registering:')
-      console.log(response)
       this.loading = false
-    }, error => {
-      console.log('Got an error from registering:')
-      console.log(error)
-      this.error = 'An error occurred'
+    }, errorMessage => {
+      this.error = errorMessage
       this.loading = false
     })
   }
