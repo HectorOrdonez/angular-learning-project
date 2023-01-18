@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {Observable, throwError} from "rxjs";
 import {AuthResponseData} from "./auth-response.data";
 import {catchError} from "rxjs/operators";
@@ -21,26 +21,7 @@ export class AuthService {
       password: password,
       returnSecureToken: true
     })
-      .pipe(
-        catchError(errorResponse => {
-          let errorMessage = 'Something terrible happened!'
-
-          if(!errorResponse.error || !errorResponse.error.error)
-          {
-            return throwError(errorMessage)
-          }
-
-          switch(errorResponse.error.error.message)
-          {
-            case 'EMAIL_NOT_FOUND':
-            case 'INVALID_PASSWORD':
-              errorMessage = 'Your credentials are not correct. Verify email and password'
-              break
-          }
-
-          return throwError(errorMessage)
-        })
-      )
+      .pipe(catchError(this.handleError))
   }
 
   register(email: string, password: string): Observable<AuthResponseData> {
@@ -50,24 +31,26 @@ export class AuthService {
       password: password,
       returnSecureToken: true
     })
-      .pipe(
-        catchError(errorResponse => {
-          let errorMessage = 'Something terrible happened!'
+      .pipe(catchError(this.handleError))
+  }
 
-          if(!errorResponse.error || !errorResponse.error.error)
-          {
-            return throwError(errorMessage)
-          }
+  private handleError(errorResponse: HttpErrorResponse) {
+    let errorMessage = 'Something terrible happened!'
 
-          switch(errorResponse.error.error.message)
-          {
-            case 'EMAIL_EXISTS':
-              errorMessage = 'Email already in use'
-              break
-          }
+    if (!errorResponse.error || !errorResponse.error.error) {
+      return throwError(errorMessage)
+    }
 
-          return throwError(errorMessage)
-        })
-      )
+    switch (errorResponse.error.error.message) {
+      case 'EMAIL_EXISTS':
+        errorMessage = 'Email already in use'
+        break
+      case 'EMAIL_NOT_FOUND':
+      case 'INVALID_PASSWORD':
+        errorMessage = 'Your credentials are not correct. Verify email and password'
+        break
+    }
+
+    return throwError(errorMessage)
   }
 }
