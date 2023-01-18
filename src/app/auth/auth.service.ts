@@ -12,7 +12,7 @@ export class AuthService {
   readonly REGISTER_ENDPOINT = `${this.AUTH_ROOT}:signUp?key=${this.KEY}`
   readonly LOGIN_ENDPOINT = `${this.AUTH_ROOT}:signInWithPassword?key=${this.KEY}`
 
-  user = new Subject<any>()
+  user = new Subject<User>()
 
   constructor(private httpClient: HttpClient) {
   }
