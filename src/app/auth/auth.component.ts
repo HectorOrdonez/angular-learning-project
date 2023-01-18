@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {AuthService} from "./auth.service";
+import {Observable} from "rxjs";
+import {AuthResponseData} from "./auth-response.data";
 
 @Component({
   selector: 'app-auth',
@@ -19,32 +21,29 @@ export class AuthComponent {
   }
 
   onSubmit(authForm: NgForm) {
-    if (this.loginMode) {
-      this.login(authForm)
-    } else {
-      this.register(authForm)
-    }
-  }
+    let authObs: Observable<AuthResponseData>
 
-  private login(authForm: NgForm) {
+    this.error = null
     this.loading = true
+    authObs = this.loginMode? this.login(authForm) : this.register(authForm)
 
-    this.authService.login(authForm.value.email, authForm.value.password).subscribe(response => {
+    authObs.subscribe(response => {
       this.loading = false
+      console.log('Success, response: ')
+      console.log(response)
     }, errorResponse => {
+      console.log('Error, response: ')
+      console.log(errorResponse)
       this.error = errorResponse
       this.loading = false
     })
   }
 
-  private register(authForm: NgForm) {
-    this.loading = true
+  private login(authForm: NgForm): Observable<AuthResponseData> {
+    return this.authService.login(authForm.value.email, authForm.value.password)
+  }
 
-    this.authService.register(authForm.value.email, authForm.value.password).subscribe(response => {
-      this.loading = false
-    }, errorMessage => {
-      this.error = errorMessage
-      this.loading = false
-    })
+  private register(authForm: NgForm): Observable<AuthResponseData> {
+    return this.authService.register(authForm.value.email, authForm.value.password)
   }
 }
