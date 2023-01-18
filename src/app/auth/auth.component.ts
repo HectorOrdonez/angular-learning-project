@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {AuthService} from "./auth.service";
 import {Observable} from "rxjs";
@@ -8,12 +8,17 @@ import {AuthResponseData} from "./auth-response.data";
   selector: 'app-auth',
   templateUrl: './auth.component.html',
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
   loginMode = true
   loading: boolean = false;
   error: string = null
 
   constructor(private authService: AuthService) {
+  }
+
+  ngOnInit(): void {
+    this.authService.user.subscribe(data => {
+    })
   }
 
   onToggleMode() {

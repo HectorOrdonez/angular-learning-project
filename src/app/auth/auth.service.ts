@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {Observable, throwError} from "rxjs";
+import {Observable, Subject, throwError} from "rxjs";
 import {AuthResponseData} from "./auth-response.data";
-import {catchError} from "rxjs/operators";
+import {catchError, tap} from "rxjs/operators";
+import {User} from "./user.model";
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
@@ -10,6 +11,8 @@ export class AuthService {
   readonly KEY = 'AIzaSyCWtZnwnKypFOc8geLHSk9vRhlXq0FBNuA'
   readonly REGISTER_ENDPOINT = `${this.AUTH_ROOT}:signUp?key=${this.KEY}`
   readonly LOGIN_ENDPOINT = `${this.AUTH_ROOT}:signInWithPassword?key=${this.KEY}`
+
+  user = new Subject<any>()
 
   constructor(private httpClient: HttpClient) {
   }
@@ -21,7 +24,12 @@ export class AuthService {
       password: password,
       returnSecureToken: true
     })
-      .pipe(catchError(this.handleError))
+      .pipe(
+        catchError(this.handleError),
+        tap(response => {
+          this.user.next(new User(response.localId, response.email, response.idToken, +response.expiresIn))
+        })
+      )
   }
 
   register(email: string, password: string): Observable<AuthResponseData> {
@@ -31,7 +39,11 @@ export class AuthService {
       password: password,
       returnSecureToken: true
     })
-      .pipe(catchError(this.handleError))
+      .pipe(catchError(this.handleError),
+        tap(response => {
+          this.user.next(new User(response.localId, response.email, response.idToken, +response.expiresIn))
+        })
+      )
   }
 
   private handleError(errorResponse: HttpErrorResponse) {
