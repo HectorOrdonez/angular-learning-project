@@ -29,11 +29,7 @@ export class AuthComponent {
 
     authObs.subscribe(response => {
       this.loading = false
-      console.log('Success, response: ')
-      console.log(response)
     }, errorResponse => {
-      console.log('Error, response: ')
-      console.log(errorResponse)
       this.error = errorResponse
       this.loading = false
     })
