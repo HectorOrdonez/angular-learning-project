@@ -3,7 +3,7 @@ import {ShoppingEditComponent} from "./shopping-edit/shopping-edit.component";
 import {ShoppingListComponent} from "./shopping-list.component";
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
-import {ShoppingListRoutingModule} from "./shopping-list-routing.module";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -13,7 +13,7 @@ import {ShoppingListRoutingModule} from "./shopping-list-routing.module";
   imports: [
     CommonModule,
     FormsModule,
-    ShoppingListRoutingModule,
+    RouterModule.forChild([{path: 'shopping-list', component: ShoppingListComponent}])
   ],
 })
 export class ShoppingListModule {
