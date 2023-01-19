@@ -11,7 +11,7 @@ import {ShoppingListService} from "./shopping-list.service";
     ShoppingListComponent,
   ],
   imports: [
-    RouterModule.forChild([{path: 'shopping-list', component: ShoppingListComponent}]),
+    RouterModule.forChild([{path: '', component: ShoppingListComponent}]),
     SharedModule,
   ],
   providers: [
