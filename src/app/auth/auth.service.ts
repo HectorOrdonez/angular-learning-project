@@ -50,7 +50,6 @@ export class AuthService {
   }
 
   private handleError(errorResponse: HttpErrorResponse) {
-    console.log(errorResponse)
     let errorMessage = 'Something terrible happened!'
 
     if (!errorResponse.error || !errorResponse.error.error) {
