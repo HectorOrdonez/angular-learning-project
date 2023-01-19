@@ -5,10 +5,7 @@
 <div class="row" *ngIf="!loading">
   <div class="col-xs-6">
     <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
-<!--      <div class="alert alert-danger" *ngIf="error">-->
-<!--        {{ this.error }}-->
-<!--      </div>-->
-      <app-alert message="Hello there! this is an error message"></app-alert>
+      <app-alert [message]="error" *ngIf="error" (close)="onAlertCloseEvent()"></app-alert>
 <!--      <app-alert [message]="error" *ngIf="error"></app-alert>-->
 
       <div class="form-group">

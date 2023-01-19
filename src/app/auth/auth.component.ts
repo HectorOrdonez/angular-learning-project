@@ -49,4 +49,8 @@ export class AuthComponent implements OnInit {
   private register(authForm: NgForm): Observable<AuthResponseData> {
     return this.authService.register(authForm.value.email, authForm.value.password)
   }
+
+  onAlertCloseEvent() {
+    this.error = null
+  }
 }
