@@ -3,6 +3,7 @@ import {ShoppingEditComponent} from "./shopping-edit/shopping-edit.component";
 import {ShoppingListComponent} from "./shopping-list.component";
 import {RouterModule} from "@angular/router";
 import {SharedModule} from "../shared/shared.module";
+import {ShoppingListService} from "./shopping-list.service";
 
 @NgModule({
   declarations: [
@@ -12,6 +13,9 @@ import {SharedModule} from "../shared/shared.module";
   imports: [
     RouterModule.forChild([{path: 'shopping-list', component: ShoppingListComponent}]),
     SharedModule,
+  ],
+  providers: [
+    ShoppingListService,
   ],
 })
 export class ShoppingListModule {

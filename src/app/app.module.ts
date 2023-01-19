@@ -6,32 +6,26 @@ import {HeaderComponent} from './header/header.component';
 import {ShoppingListService} from './shopping-list/shopping-list.service';
 import {AppRoutingModule} from "./app-routing.module";
 import {RecipeService} from "./recipes/recipe.service";
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from "@angular/common/http";
 import {AuthComponent} from "./auth/auth.component";
-import {AuthInterceptorService} from "./auth/auth-interceptor.service";
 import {RecipesModule} from "./recipes/recipes.module";
 import {ShoppingListModule} from "./shopping-list/shopping-list.module";
 import {SharedModule} from "./shared/shared.module";
+import {AuthModule} from "./auth/auth.module";
 
 @NgModule({
   declarations: [
     AppComponent,
-    AuthComponent,
     HeaderComponent,
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
+    AuthModule,
+    BrowserModule,
     HttpClientModule,
     RecipesModule,
-    ShoppingListModule,
     SharedModule,
-  ],
-  providers: [
-    AuthInterceptorService,
-    RecipeService,
-    ShoppingListService,
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},
+    ShoppingListModule,
   ],
   bootstrap: [AppComponent],
 })
