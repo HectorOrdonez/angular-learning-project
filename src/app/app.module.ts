@@ -9,6 +9,7 @@ import {ShoppingListModule} from "./shopping-list/shopping-list.module";
 import {SharedModule} from "./shared/shared.module";
 import {AuthModule} from "./auth/auth.module";
 import {RecipeService} from "./recipes/recipe.service";
+import {LoggingService} from "./logging.service";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {RecipeService} from "./recipes/recipe.service";
   bootstrap: [AppComponent],
   providers: [
     RecipeService,
+    LoggingService,
   ],
 })
 export class AppModule {
