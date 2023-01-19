@@ -6,9 +6,10 @@ import {RecipeListComponent} from "./recipe-list/recipe-list.component";
 import {RecipesComponent} from "./recipes.component";
 import {RecipesUnselectedComponent} from "./recipes.unselected.component";
 import {RecipeEditComponent} from "./recipe-edit/recipe-edit.component";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import {CommonModule} from "@angular/common";
+import {RecipesRoutingModule} from "./recipes-routing.module";
 
 @NgModule({
   declarations: [
@@ -23,15 +24,8 @@ import {CommonModule} from "@angular/common";
     RouterModule,
     CommonModule,
     ReactiveFormsModule,
+    RecipesRoutingModule,
   ],
-  exports: [
-    RecipeDetailComponent,
-    RecipeItemComponent,
-    RecipeListComponent,
-    RecipesComponent,
-    RecipesUnselectedComponent,
-    RecipeEditComponent,
-  ]
 })
-export class RecipeModule {
+export class RecipesModule {
 }
