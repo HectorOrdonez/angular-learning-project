@@ -6,9 +6,7 @@ import {AuthInterceptorService} from "./auth-interceptor.service";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 
 @NgModule({
-  declarations: [
-    AuthComponent,
-  ],
+  declarations: [AuthComponent],
   imports: [
     RouterModule.forChild([{path: 'auth', component: AuthComponent}]),
     SharedModule,
