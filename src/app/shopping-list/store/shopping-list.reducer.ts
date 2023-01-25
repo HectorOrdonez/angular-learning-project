@@ -59,7 +59,7 @@ export function shoppingListReducer(
       return {
         ...state,
         ingredients: state.ingredients.filter((ingredient, index) => {
-          return this.editedIngredientIndex !== index
+          return state.editedIngredientIndex !== index
         }),
         editedIngredientIndex: -1,
         editedIngredient: null,
