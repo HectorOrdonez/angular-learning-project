@@ -4,7 +4,6 @@ import {ShoppingListComponent} from "./shopping-list.component";
 import {RouterModule} from "@angular/router";
 import {SharedModule} from "../shared/shared.module";
 import {ShoppingListService} from "./shopping-list.service";
-import {LoggingService} from "../logging.service";
 
 @NgModule({
   declarations: [
@@ -17,7 +16,6 @@ import {LoggingService} from "../logging.service";
   ],
   providers: [
     ShoppingListService,
-    LoggingService,
   ],
 })
 export class ShoppingListModule {
