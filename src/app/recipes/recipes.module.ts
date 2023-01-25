@@ -9,7 +9,6 @@ import {RecipeEditComponent} from "./recipe-edit/recipe-edit.component";
 import {RouterModule} from "@angular/router";
 import {RecipesRoutingModule} from "./recipes-routing.module";
 import {SharedModule} from "../shared/shared.module";
-import {RecipeService} from "./recipe.service";
 
 @NgModule({
   declarations: [
@@ -24,9 +23,6 @@ import {RecipeService} from "./recipe.service";
     RouterModule,
     RecipesRoutingModule,
     SharedModule,
-  ],
-  providers: [
-    RecipeService,
   ],
 })
 export class RecipesModule {
