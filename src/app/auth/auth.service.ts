@@ -24,7 +24,6 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<AuthResponseData> {
-
     return this.httpClient.post<AuthResponseData>(this.LOGIN_ENDPOINT, {
       email: email,
       password: password,

@@ -6,6 +6,8 @@ import {AuthResponseData} from "./auth-response.data";
 import {Router} from "@angular/router";
 import {AlertComponent} from "../shared/alert/alert.component";
 import {PlaceholderDirective} from "../shared/directive/placeholder.directive";
+import {Store} from "@ngrx/store";
+import * as AuthActions from './store/auth.actions'
 
 @Component({
   selector: 'app-auth',
@@ -13,12 +15,17 @@ import {PlaceholderDirective} from "../shared/directive/placeholder.directive";
 })
 export class AuthComponent implements OnInit, OnDestroy {
   @ViewChild(PlaceholderDirective, {static: false}) alertHost: PlaceholderDirective
-  private closeSub: Subscription
-  loginMode = true
+  private closeSub: Subscription;
+  loginMode = true;
 
   loading: boolean = false;
-  error: string = null
-  constructor(private authService: AuthService, private router: Router) {
+  error: string = null;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private store: Store,
+    ) {
   }
 
   ngOnInit(): void {
@@ -42,20 +49,34 @@ export class AuthComponent implements OnInit, OnDestroy {
 
     this.error = null
     this.loading = true
-    authObs = this.loginMode ? this.login(authForm) : this.register(authForm)
+    // authObs = this.loginMode ? this.login(authForm) : this.register(authForm)
 
-    authObs.subscribe(response => {
-      this.loading = false
-      this.router.navigate(['/recipes'])
-    }, errorResponse => {
-      this.error = errorResponse
-      this.showErrorAlert(errorResponse)
-      this.loading = false
-    })
+    if (this.loginMode) {
+      this.login(authForm)
+    } else {
+      this.store.select('auth').subscribe(auhState => {
+
+      })
+    }
+    //   authObs.subscribe(response => {
+    //     this.loading = false
+    //     this.router.navigate(['/recipes'])
+    //   }, errorResponse => {
+    //     this.error = errorResponse
+    //     this.showErrorAlert(errorResponse)
+    //     this.loading = false
+    //   })
+    // }
   }
 
-  private login(authForm: NgForm): Observable<AuthResponseData> {
-    return this.authService.login(authForm.value.email, authForm.value.password)
+  private login(authForm: NgForm): any {
+    console.log('Dispatching LoginStart action')
+    this.store.dispatch(new AuthActions.LoginStart({
+      email: authForm.value.email,
+      password: authForm.value.password,
+    }));
+
+    // return this.authService.login(authForm.value.email, authForm.value.password)
   }
 
   private register(authForm: NgForm): Observable<AuthResponseData> {

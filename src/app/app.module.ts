@@ -11,6 +11,8 @@ import {SharedModule} from "./shared/shared.module";
 import {AuthModule} from "./auth/auth.module";
 import {RecipeService} from "./recipes/recipe.service";
 import * as fromApp from './store/appReducer'
+import {EffectsModule} from "@ngrx/effects";
+import {AuthEffects} from "./auth/store/auth.effects";
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import * as fromApp from './store/appReducer'
     HttpClientModule,
     SharedModule,
     ShoppingListModule,
-    StoreModule.forRoot(fromApp.appReducer)
+    StoreModule.forRoot(fromApp.appReducer),
+    EffectsModule.forRoot([AuthEffects]),
   ],
   bootstrap: [AppComponent],
   providers: [
